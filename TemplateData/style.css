@@ -1,16 +1,25 @@
-body { padding: 0; margin: 0 }
-#unity-container { position: absolute }
-#unity-container.unity-desktop { left: 50%; top: 50%; transform: translate(-50%, -50%) }
-#unity-container.unity-mobile { position: fixed; width: 100%; height: 100% }
-#unity-canvas { background: #231F20 }
-.unity-mobile #unity-canvas { width: 100%; height: 100% }
-#unity-loading-bar { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: none }
-#unity-logo { width: 154px; height: 130px; background: url('unity-logo-dark.png') no-repeat center }
-#unity-progress-bar-empty { width: 141px; height: 18px; margin-top: 10px; margin-left: 6.5px; background: url('progress-bar-empty-dark.png') no-repeat center }
-#unity-progress-bar-full { width: 0%; height: 18px; margin-top: 10px; background: url('progress-bar-full-dark.png') no-repeat center }
-#unity-footer { position: relative }
-.unity-mobile #unity-footer { display: none }
-#unity-webgl-logo { float:left; width: 204px; height: 38px; background: url('webgl-logo.png') no-repeat center }
-#unity-build-title { float: right; margin-right: 10px; line-height: 38px; font-family: arial; font-size: 18px }
-#unity-fullscreen-button { cursor:pointer; float: right; width: 38px; height: 38px; background: url('fullscreen-button.png') no-repeat center }
-#unity-warning { position: absolute; left: 50%; top: 5%; transform: translate(-50%); background: white; padding: 10px; display: none }
+﻿* { box-sizing: border-box; }
+html, body { width: 100%; height: 100%; padding: 0; margin: 0; overflow: hidden; background: #231f20; }
+body { font-family: Arial, sans-serif; }
+#unity-container { position: fixed; inset: 0; width: 100%; height: 100%; height: 100dvh; }
+#unity-container:fullscreen { width: 100%; height: 100%; }
+#unity-canvas { display: block; width: 100%; height: 100%; background: #231f20; touch-action: none; }
+#unity-loading-bar { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: none; }
+#unity-logo { width: 154px; height: 130px; background: url('unity-logo-dark.png') no-repeat center; }
+#unity-progress-bar-empty { width: 141px; height: 18px; margin-top: 10px; margin-left: 6.5px; background: url('progress-bar-empty-dark.png') no-repeat center; }
+#unity-progress-bar-full { width: 0%; height: 18px; background: url('progress-bar-full-dark.png') no-repeat center; }
+#unity-warning { position: absolute; z-index: 4; left: 50%; top: max(64px, env(safe-area-inset-top)); transform: translateX(-50%); width: min(90%, 600px); max-height: 50%; overflow: auto; background: white; padding: 10px; display: none; overflow-wrap: anywhere; }
+button { color: white; background: rgb(20 25 35 / 65%); border: 1px solid rgb(255 255 255 / 55%); cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: none; user-select: none; -webkit-user-select: none; }
+button:focus-visible { outline: 3px solid #ffe378; outline-offset: 3px; }
+#unity-fullscreen-button { position: absolute; z-index: 3; top: max(12px, env(safe-area-inset-top)); right: max(12px, env(safe-area-inset-right)); min-height: 44px; padding: 0 16px; border-radius: 12px; font-size: 14px; }
+#touch-controls { --key-size: clamp(48px, 12vw, 68px); position: absolute; z-index: 2; bottom: max(18px, env(safe-area-inset-bottom)); left: max(18px, env(safe-area-inset-left)); display: grid; grid-template-columns: repeat(3, var(--key-size)); grid-template-rows: repeat(2, var(--key-size)); gap: 8px; touch-action: none; }
+#touch-controls button { border-radius: 18px; font-size: 24px; box-shadow: 0 3px 10px rgb(0 0 0 / 25%); }
+#touch-controls button:disabled { opacity: .35; cursor: wait; }
+#touch-controls button.is-pressed { background: rgb(255 213 79 / 85%); color: #231f20; transform: scale(.94); }
+[data-key="ArrowUp"] { grid-column: 2; }
+[data-key="ArrowLeft"] { grid-column: 1; grid-row: 2; }
+[data-key="ArrowDown"] { grid-column: 2; grid-row: 2; }
+[data-key="ArrowRight"] { grid-column: 3; grid-row: 2; }
+#fullscreen-status { position: absolute; z-index: 3; top: calc(max(12px, env(safe-area-inset-top)) + 52px); right: max(12px, env(safe-area-inset-right)); max-width: min(85%, 340px); color: white; background: rgb(20 25 35 / 85%); border-radius: 8px; padding: 10px; pointer-events: none; }
+#fullscreen-status:empty { display: none; }
+@media (max-height: 450px) { #touch-controls { --key-size: 48px; gap: 6px; bottom: max(10px, env(safe-area-inset-bottom)); } }
