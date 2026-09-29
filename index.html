@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Unity WebGL Player | Mario</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
-    <link rel="stylesheet" href="TemplateData/style.css">
+    <link rel="stylesheet" href="TemplateData/style.css?v=20260929-controls">
   </head>
   <body>
     <div id="unity-container" class="unity-desktop">
@@ -19,15 +19,25 @@
       </div>
       <div id="unity-warning"> </div>
       <button id="unity-fullscreen-button" type="button" aria-label="進入全螢幕">全螢幕</button>
+      <!-- 左下方方向區：上＝空白鍵、下＝S、左＝A、右＝D。 -->
       <div id="touch-controls" role="group" aria-label="遊戲方向控制">
-        <button type="button" data-key="ArrowUp" data-keycode="38" aria-label="上" disabled>▲</button>
-        <button type="button" data-key="ArrowLeft" data-keycode="37" aria-label="左" disabled>◀</button>
-        <button type="button" data-key="ArrowDown" data-keycode="40" aria-label="下" disabled>▼</button>
-        <button type="button" data-key="ArrowRight" data-keycode="39" aria-label="右" disabled>▶</button>
+        <button type="button" data-direction="up" data-key=" " data-code="Space" data-keycode="32" aria-label="上：空白鍵" disabled>▲<small>空白鍵</small></button>
+        <button type="button" data-direction="left" data-key="a" data-code="KeyA" data-keycode="65" aria-label="左：A 鍵" disabled>◀<small>A</small></button>
+        <button type="button" data-direction="down" data-key="s" data-code="KeyS" data-keycode="83" aria-label="下：S 鍵" disabled>▼<small>S</small></button>
+        <button type="button" data-direction="right" data-key="d" data-code="KeyD" data-keycode="68" aria-label="右：D 鍵" disabled>▶<small>D</small></button>
+      </div>
+      <!-- 右側紅色確認按鈕，與鍵盤 Enter 使用相同的按下／放開事件。 -->
+      <button id="enter-button" type="button" data-key="Enter" data-code="Enter" data-keycode="13" aria-label="Enter 確認鍵" disabled>ENTER<span>確認</span></button>
+      <!-- 手機、平板直向時覆蓋整個遊戲；提示放在容器內，全螢幕時也能顯示。 -->
+      <div id="orientation-lock" role="alert" hidden>
+        <div class="rotate-device" aria-hidden="true">↻</div>
+        <h1>請將裝置轉成橫向</h1>
+        <p>手機和平板需使用橫向畫面才能遊玩</p>
+        <small>轉向後即可繼續遊戲</small>
       </div>
       <div id="fullscreen-status" role="status" aria-live="polite"></div>
     </div>
-    <script src="TemplateData/controls.js"></script>
+    <script src="TemplateData/controls.js?v=20260929-controls"></script>
     <script>
 
       var container = document.querySelector("#unity-container");
@@ -37,12 +47,7 @@
       var fullscreenButton = document.querySelector("#unity-fullscreen-button");
       var warningBanner = document.querySelector("#unity-warning");
 
-      // Shows a temporary message banner/ribbon for a few seconds, or
-      // a permanent error message on top of the canvas if type=='error'.
-      // If type=='warning', a yellow highlight color is used.
-      // Modify or remove this function to customize the visually presented
-      // way that non-critical warnings and error messages are presented to the
-      // user.
+      // 顯示載入錯誤或短暫警告。
       function unityShowBanner(msg, type) {
         function updateBannerVisibility() {
           warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
@@ -74,13 +79,7 @@
         showBanner: unityShowBanner,
       };
 
-      // By default, Unity keeps WebGL canvas render target size matched with
-      // the DOM size of the canvas element (scaled by window.devicePixelRatio)
-      // Set this to false if you want to decouple this synchronization from
-      // happening inside the engine, and you would instead like to size up
-      // the canvas DOM size and WebGL render target sizes yourself.
-      // config.matchWebGLToCanvasSize = false;
-
+      // 遊戲資源沿用原始 Unity 建置，畫面尺寸由 CSS 配合視窗調整。
       loadingBar.style.display = "block";
 
       var script = document.createElement("script");
@@ -90,7 +89,8 @@
           progressBarFull.style.width = 100 * progress + "%";
               }).then((unityInstance) => {
                 loadingBar.style.display = "none";
-                document.querySelectorAll('#touch-controls button').forEach(button => { button.disabled = false; });
+                // 載入完成才啟用按鈕；若此時轉成直向，立即暫停。
+                window.gameControls.setUnityInstance(unityInstance);
               }).catch((message) => {
                 loadingBar.style.display = "none";
                 unityShowBanner(message, "error");
@@ -102,7 +102,8 @@
         unityShowBanner("遊戲檔案載入失敗，請重新整理頁面後再試一次。", "error");
       };
 
-      document.body.appendChild(script);
+      // 首次以直向開啟手機／平板時，先顯示轉向提示，橫向後才載入 Unity。
+      window.gameControls.whenPlayable(() => document.body.appendChild(script));
 
     </script>
   </body>

@@ -1,4 +1,5 @@
-﻿* { box-sizing: border-box; }
+/* 基本版面：遊戲填滿視窗，保留瀏海與螢幕邊緣的安全距離。 */
+* { box-sizing: border-box; }
 html, body { width: 100%; height: 100%; padding: 0; margin: 0; overflow: hidden; background: #231f20; }
 body { font-family: Arial, sans-serif; }
 #unity-container { position: fixed; inset: 0; width: 100%; height: 100%; height: 100dvh; }
@@ -16,10 +17,28 @@ button:focus-visible { outline: 3px solid #ffe378; outline-offset: 3px; }
 #touch-controls button { border-radius: 18px; font-size: 24px; box-shadow: 0 3px 10px rgb(0 0 0 / 25%); }
 #touch-controls button:disabled { opacity: .35; cursor: wait; }
 #touch-controls button.is-pressed { background: rgb(255 213 79 / 85%); color: #231f20; transform: scale(.94); }
-[data-key="ArrowUp"] { grid-column: 2; }
-[data-key="ArrowLeft"] { grid-column: 1; grid-row: 2; }
-[data-key="ArrowDown"] { grid-column: 2; grid-row: 2; }
-[data-key="ArrowRight"] { grid-column: 3; grid-row: 2; }
+[data-direction="up"] { grid-column: 2; }
+[data-direction="left"] { grid-column: 1; grid-row: 2; }
+[data-direction="down"] { grid-column: 2; grid-row: 2; }
+[data-direction="right"] { grid-column: 3; grid-row: 2; }
 #fullscreen-status { position: absolute; z-index: 3; top: calc(max(12px, env(safe-area-inset-top)) + 52px); right: max(12px, env(safe-area-inset-right)); max-width: min(85%, 340px); color: white; background: rgb(20 25 35 / 85%); border-radius: 8px; padding: 10px; pointer-events: none; }
 #fullscreen-status:empty { display: none; }
 @media (max-height: 450px) { #touch-controls { --key-size: 48px; gap: 6px; bottom: max(10px, env(safe-area-inset-bottom)); } }
+
+/* 方向鍵同時顯示箭頭與對應鍵名，位置沿用左下方十字排列。 */
+#touch-controls button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; line-height: 1; }
+#touch-controls small { font-size: 12px; font-weight: 600; }
+/* Enter 固定在右下方：紅色底、大按壓範圍，可與左側方向鍵同時操作。 */
+#enter-button { position: absolute; z-index: 2; right: max(22px, env(safe-area-inset-right)); bottom: max(24px, env(safe-area-inset-bottom)); width: clamp(84px, 12vw, 112px); height: clamp(72px, 12vw, 96px); border: 2px solid #ffb4ae; border-radius: 24px; background: #d92d32; font-size: 19px; font-weight: 800; box-shadow: 0 5px 0 #8e1820, 0 8px 20px rgb(0 0 0 / 30%); }
+#enter-button span { display: block; margin-top: 5px; font-size: 13px; font-weight: 500; }
+#enter-button:disabled { opacity: .4; cursor: wait; }
+#enter-button.is-pressed { background: #ff5257; transform: translateY(3px); box-shadow: 0 2px 0 #8e1820; }
+/* 直向遮罩必須位於所有按鈕與畫布上方，禁止點擊底下的遊戲。 */
+#orientation-lock { position: absolute; inset: 0; z-index: 10; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 28px; text-align: center; color: white; background: #191820; touch-action: none; }
+#orientation-lock[hidden] { display: none; }
+#orientation-lock h1 { font-size: clamp(21px, 5vw, 30px); margin: 20px 0 8px; }
+#orientation-lock p { font-size: 15px; line-height: 1.7; }
+#orientation-lock small { color: #c5becb; }
+.rotate-device { display: grid; place-items: center; width: 62px; height: 94px; border: 3px solid #ff686d; border-radius: 14px; font-size: 44px; color: #ff686d; transform: rotate(90deg); }
+.portrait-blocked > :not(#orientation-lock) { visibility: hidden; pointer-events: none; }
+@media (max-height: 450px) { #enter-button { height: 72px; width: 88px; bottom: max(14px, env(safe-area-inset-bottom)); } }
