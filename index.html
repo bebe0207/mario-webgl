@@ -6,11 +6,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Unity WebGL Player | Mario</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
-    <link rel="stylesheet" href="TemplateData/style.css?v=20260929-separate-down">
+    <link rel="stylesheet" href="TemplateData/style.css?v=20260929-fit-screen">
   </head>
   <body>
     <div id="unity-container" class="unity-desktop">
-      <canvas id="unity-canvas" width=960 height=600 tabindex="-1"></canvas>
+      <!-- 中央遊戲區保留 960:600 比例；兩側操作區不覆蓋遊戲。 -->
+      <div id="game-stage"><canvas id="unity-canvas" width="960" height="600" tabindex="-1"></canvas></div>
       <div id="unity-loading-bar">
         <div id="unity-logo"></div>
         <div id="unity-progress-bar-empty">
@@ -39,7 +40,8 @@
       </div>
       <div id="fullscreen-status" role="status" aria-live="polite"></div>
     </div>
-    <script src="TemplateData/controls.js?v=20260929-separate-down"></script>
+    <script src="TemplateData/layout.js?v=20260929-fit-screen"></script>
+    <script src="TemplateData/controls.js?v=20260929-fit-screen"></script>
     <script>
 
       var container = document.querySelector("#unity-container");
@@ -81,7 +83,7 @@
         showBanner: unityShowBanner,
       };
 
-      // 遊戲資源沿用原始 Unity 建置，畫面尺寸由 CSS 配合視窗調整。
+      // 遊戲資源沿用原始 Unity 建置，畫面由 layout.js 依原始比例配合可見視窗調整。
       loadingBar.style.display = "block";
 
       var script = document.createElement("script");
