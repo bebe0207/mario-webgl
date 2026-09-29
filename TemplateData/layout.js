@@ -3,6 +3,11 @@
   const container = document.querySelector('#unity-container');
   const stage = document.querySelector('#game-stage');
   const canvas = document.querySelector('#unity-canvas');
+  // 與 controls.js 使用同一套裝置判斷：iPad 的桌面網站模式也顯示觸控鍵。
+  const mobileDevice = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)
+    || (/Macintosh/i.test(navigator.userAgent) && navigator.maxTouchPoints > 1)
+    || (navigator.maxTouchPoints > 1 && matchMedia('(pointer: coarse)').matches);
+  container.classList.toggle('mobile-controls', mobileDevice);
   const ratio = 960 / 600; // 沿用原始 Unity WebGL 畫布比例，避免超寬螢幕改變取景。
   let frame = 0;
 

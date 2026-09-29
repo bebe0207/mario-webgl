@@ -7,7 +7,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <title>Unity WebGL Player | Mario</title>
   <link rel="shortcut icon" href="TemplateData/favicon.ico">
-  <link rel="stylesheet" href="TemplateData/style.css?v=20260929-fit-screen">
+  <link rel="stylesheet" href="TemplateData/style.css?v=20260929-desktop-mobile-v2">
 </head>
 
 <body>
@@ -22,8 +22,8 @@
     </div>
     <div id="unity-warning"> </div>
     <button id="unity-fullscreen-button" type="button" aria-label="進入全螢幕">全螢幕</button>
-    <!-- 左側依序為左、下、右箭頭，分別對應 A、S、D。 -->
-    <div id="touch-controls" role="group" aria-label="左下右方向鍵">
+    <!-- 手機左側方向鍵：W 在上，A／S／D 在下。 -->
+    <div id="touch-controls" role="group" aria-label="方向鍵 W A S D">
       <button type="button" data-direction="left" data-key="a" data-code="KeyA" data-keycode="65" aria-label="向左移動"
         disabled>◀</button>
       <button type="button" data-direction="up" data-key="w" data-code="KeyW" data-keycode="87" aria-label="向上移動"
@@ -49,8 +49,8 @@
     </div>
     <div id="fullscreen-status" role="status" aria-live="polite"></div>
   </div>
-  <script src="TemplateData/layout.js?v=20260929-fit-screen"></script>
-  <script src="TemplateData/controls.js?v=20260929-fit-screen"></script>
+  <script src="TemplateData/layout.js?v=20260929-desktop-mobile-v2"></script>
+  <script src="TemplateData/controls.js?v=20260929-desktop-mobile-v2"></script>
   <script>
 
     var container = document.querySelector("#unity-container");
