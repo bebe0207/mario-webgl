@@ -1,114 +1,124 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | Mario</title>
-    <link rel="shortcut icon" href="TemplateData/favicon.ico">
-    <link rel="stylesheet" href="TemplateData/style.css?v=20260929-fit-screen">
-  </head>
-  <body>
-    <div id="unity-container" class="unity-desktop">
-      <!-- 中央遊戲區保留 960:600 比例；兩側操作區不覆蓋遊戲。 -->
-      <div id="game-stage"><canvas id="unity-canvas" width="960" height="600" tabindex="-1"></canvas></div>
-      <div id="unity-loading-bar">
-        <div id="unity-logo"></div>
-        <div id="unity-progress-bar-empty">
-          <div id="unity-progress-bar-full"></div>
-        </div>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Unity WebGL Player | Mario</title>
+  <link rel="shortcut icon" href="TemplateData/favicon.ico">
+  <link rel="stylesheet" href="TemplateData/style.css?v=20260929-fit-screen">
+</head>
+
+<body>
+  <div id="unity-container" class="unity-desktop">
+    <!-- 中央遊戲區保留 960:600 比例；兩側操作區不覆蓋遊戲。 -->
+    <div id="game-stage"><canvas id="unity-canvas" width="960" height="600" tabindex="-1"></canvas></div>
+    <div id="unity-loading-bar">
+      <div id="unity-logo"></div>
+      <div id="unity-progress-bar-empty">
+        <div id="unity-progress-bar-full"></div>
       </div>
-      <div id="unity-warning"> </div>
-      <button id="unity-fullscreen-button" type="button" aria-label="進入全螢幕">全螢幕</button>
-      <!-- 左側依序為左、下、右箭頭，分別對應 A、S、D。 -->
-      <div id="touch-controls" role="group" aria-label="左下右方向鍵">
-        <button type="button" data-direction="left" data-key="a" data-code="KeyA" data-keycode="65" aria-label="向左移動" disabled>◀</button>
-        <button type="button" data-direction="down" data-key="s" data-code="KeyS" data-keycode="83" aria-label="向下，S 鍵" disabled>▼</button>
-        <button type="button" data-direction="right" data-key="d" data-code="KeyD" data-keycode="68" aria-label="向右移動" disabled>▶</button>
-      </div>
-      <!-- 右側兩顆無文字圓形按鈕：左綠＝空白鍵，右紅＝Enter。 -->
-      <div id="action-controls" role="group" aria-label="遊戲動作">
-        <button id="space-button" type="button" data-key=" " data-code="Space" data-keycode="32" aria-label="空白鍵" disabled></button>
-        <button id="enter-button" type="button" data-key="Enter" data-code="Enter" data-keycode="13" aria-label="Enter" disabled></button>
-      </div>
-      <!-- 手機、平板直向時覆蓋整個遊戲；提示放在容器內，全螢幕時也能顯示。 -->
-      <div id="orientation-lock" role="alert" hidden>
-        <div class="rotate-device" aria-hidden="true">↻</div>
-        <h1>請將裝置轉成橫向</h1>
-        <p>手機和平板需使用橫向畫面才能遊玩</p>
-        <small>轉向後即可繼續遊戲</small>
-      </div>
-      <div id="fullscreen-status" role="status" aria-live="polite"></div>
     </div>
-    <script src="TemplateData/layout.js?v=20260929-fit-screen"></script>
-    <script src="TemplateData/controls.js?v=20260929-fit-screen"></script>
-    <script>
+    <div id="unity-warning"> </div>
+    <button id="unity-fullscreen-button" type="button" aria-label="進入全螢幕">全螢幕</button>
+    <!-- 左側依序為左、下、右箭頭，分別對應 A、S、D。 -->
+    <div id="touch-controls" role="group" aria-label="左下右方向鍵">
+      <button type="button" data-direction="left" data-key="a" data-code="KeyA" data-keycode="65" aria-label="向左移動"
+        disabled>◀</button>
+      <button type="button" data-direction="up" data-key="w" data-code="KeyW" data-keycode="87" aria-label="向上移動"
+        disabled>▲</button>
+      <button type="button" data-direction="down" data-key="s" data-code="KeyS" data-keycode="83" aria-label="向下，S 鍵"
+        disabled>▼</button>
+      <button type="button" data-direction="right" data-key="d" data-code="KeyD" data-keycode="68" aria-label="向右移動"
+        disabled>▶</button>
+    </div>
+    <!-- 右側兩顆無文字圓形按鈕：左綠＝空白鍵，右紅＝Enter。 -->
+    <div id="action-controls" role="group" aria-label="遊戲動作">
+      <button id="space-button" type="button" data-key=" " data-code="Space" data-keycode="32" aria-label="空白鍵"
+        disabled></button>
+      <button id="enter-button" type="button" data-key="Enter" data-code="Enter" data-keycode="13" aria-label="Enter"
+        disabled></button>
+    </div>
+    <!-- 手機、平板直向時覆蓋整個遊戲；提示放在容器內，全螢幕時也能顯示。 -->
+    <div id="orientation-lock" role="alert" hidden>
+      <div class="rotate-device" aria-hidden="true">↻</div>
+      <h1>請將裝置轉成橫向</h1>
+      <p>手機和平板需使用橫向畫面才能遊玩</p>
+      <small>轉向後即可繼續遊戲</small>
+    </div>
+    <div id="fullscreen-status" role="status" aria-live="polite"></div>
+  </div>
+  <script src="TemplateData/layout.js?v=20260929-fit-screen"></script>
+  <script src="TemplateData/controls.js?v=20260929-fit-screen"></script>
+  <script>
 
-      var container = document.querySelector("#unity-container");
-      var canvas = document.querySelector("#unity-canvas");
-      var loadingBar = document.querySelector("#unity-loading-bar");
-      var progressBarFull = document.querySelector("#unity-progress-bar-full");
-      var fullscreenButton = document.querySelector("#unity-fullscreen-button");
-      var warningBanner = document.querySelector("#unity-warning");
+    var container = document.querySelector("#unity-container");
+    var canvas = document.querySelector("#unity-canvas");
+    var loadingBar = document.querySelector("#unity-loading-bar");
+    var progressBarFull = document.querySelector("#unity-progress-bar-full");
+    var fullscreenButton = document.querySelector("#unity-fullscreen-button");
+    var warningBanner = document.querySelector("#unity-warning");
 
-      // 顯示載入錯誤或短暫警告。
-      function unityShowBanner(msg, type) {
-        function updateBannerVisibility() {
-          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
-        }
-        var div = document.createElement('div');
-        div.innerHTML = msg;
-        warningBanner.appendChild(div);
-        if (type == 'error') div.style = 'background: red; padding: 10px;';
-        else {
-          if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
-          setTimeout(function() {
-            warningBanner.removeChild(div);
-            updateBannerVisibility();
-          }, 5000);
-        }
-        updateBannerVisibility();
+    // 顯示載入錯誤或短暫警告。
+    function unityShowBanner(msg, type) {
+      function updateBannerVisibility() {
+        warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
       }
+      var div = document.createElement('div');
+      div.innerHTML = msg;
+      warningBanner.appendChild(div);
+      if (type == 'error') div.style = 'background: red; padding: 10px;';
+      else {
+        if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
+        setTimeout(function () {
+          warningBanner.removeChild(div);
+          updateBannerVisibility();
+        }, 5000);
+      }
+      updateBannerVisibility();
+    }
 
-      var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/game.loader.js";
-      var config = {
-        dataUrl: buildUrl + "/game.data",
-        frameworkUrl: buildUrl + "/game.framework.js",
-        codeUrl: buildUrl + "/game.wasm",
-        streamingAssetsUrl: "StreamingAssets",
-        companyName: "DefaultCompany",
-        productName: "Mario",
-        productVersion: "1.0",
-        showBanner: unityShowBanner,
-      };
+    var buildUrl = "Build";
+    var loaderUrl = buildUrl + "/game.loader.js";
+    var config = {
+      dataUrl: buildUrl + "/game.data",
+      frameworkUrl: buildUrl + "/game.framework.js",
+      codeUrl: buildUrl + "/game.wasm",
+      streamingAssetsUrl: "StreamingAssets",
+      companyName: "DefaultCompany",
+      productName: "Mario",
+      productVersion: "1.0",
+      showBanner: unityShowBanner,
+    };
 
-      // 遊戲資源沿用原始 Unity 建置，畫面由 layout.js 依原始比例配合可見視窗調整。
-      loadingBar.style.display = "block";
+    // 遊戲資源沿用原始 Unity 建置，畫面由 layout.js 依原始比例配合可見視窗調整。
+    loadingBar.style.display = "block";
 
-      var script = document.createElement("script");
-      script.src = loaderUrl;
-      script.onload = () => {
-        createUnityInstance(canvas, config, (progress) => {
-          progressBarFull.style.width = 100 * progress + "%";
-              }).then((unityInstance) => {
-                loadingBar.style.display = "none";
-                // 載入完成才啟用按鈕；若此時轉成直向，立即暫停。
-                window.gameControls.setUnityInstance(unityInstance);
-              }).catch((message) => {
-                loadingBar.style.display = "none";
-                unityShowBanner(message, "error");
-              });
-            };
-
-      script.onerror = () => {
+    var script = document.createElement("script");
+    script.src = loaderUrl;
+    script.onload = () => {
+      createUnityInstance(canvas, config, (progress) => {
+        progressBarFull.style.width = 100 * progress + "%";
+      }).then((unityInstance) => {
         loadingBar.style.display = "none";
-        unityShowBanner("遊戲檔案載入失敗，請重新整理頁面後再試一次。", "error");
-      };
+        // 載入完成才啟用按鈕；若此時轉成直向，立即暫停。
+        window.gameControls.setUnityInstance(unityInstance);
+      }).catch((message) => {
+        loadingBar.style.display = "none";
+        unityShowBanner(message, "error");
+      });
+    };
 
-      // 首次以直向開啟手機／平板時，先顯示轉向提示，橫向後才載入 Unity。
-      window.gameControls.whenPlayable(() => document.body.appendChild(script));
+    script.onerror = () => {
+      loadingBar.style.display = "none";
+      unityShowBanner("遊戲檔案載入失敗，請重新整理頁面後再試一次。", "error");
+    };
 
-    </script>
-  </body>
+    // 首次以直向開啟手機／平板時，先顯示轉向提示，橫向後才載入 Unity。
+    window.gameControls.whenPlayable(() => document.body.appendChild(script));
+
+  </script>
+</body>
+
 </html>

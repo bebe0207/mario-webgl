@@ -1,43 +1,332 @@
 /* 基本版面：中央遊戲保留原比例，兩側預留按鈕區與螢幕安全距離。 */
-* { box-sizing: border-box; }
-html, body { width: 100%; height: 100%; padding: 0; margin: 0; overflow: hidden; background: #231f20; }
-body { font-family: Arial, sans-serif; }
-#unity-container { --left-rail: 176px; --right-rail: 136px; position: fixed; left: var(--view-left, 0px); top: var(--view-top, 0px); width: var(--view-width, 100%); height: var(--view-height, 100dvh); background: #231f20; }
-#unity-container:fullscreen { left: 0; top: 0; width: 100%; height: 100%; }
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    background: #231f20;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+#unity-container {
+    --left-rail: 176px;
+    --right-rail: 136px;
+    position: fixed;
+    left: var(--view-left, 0px);
+    top: var(--view-top, 0px);
+    width: var(--view-width, 100%);
+    height: var(--view-height, 100dvh);
+    background: #231f20;
+}
+
+#unity-container:fullscreen {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
 /* 留白區與畫布分開配置，按鈕不會遮住遊戲內容。 */
-#game-stage { position: absolute; top: max(8px, env(safe-area-inset-top)); bottom: max(8px, env(safe-area-inset-bottom)); left: calc(var(--left-rail) + env(safe-area-inset-left)); right: calc(var(--right-rail) + env(safe-area-inset-right)); display: flex; align-items: center; justify-content: center; overflow: hidden; }
-#unity-canvas { display: block; flex: none; width: 0; height: 0; background: #231f20; touch-action: none; }
-#unity-loading-bar { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: none; }
-#unity-logo { width: 154px; height: 130px; background: url('unity-logo-dark.png') no-repeat center; }
-#unity-progress-bar-empty { width: 141px; height: 18px; margin-top: 10px; margin-left: 6.5px; background: url('progress-bar-empty-dark.png') no-repeat center; }
-#unity-progress-bar-full { width: 0%; height: 18px; background: url('progress-bar-full-dark.png') no-repeat center; }
-#unity-warning { position: absolute; z-index: 4; left: 50%; top: max(64px, env(safe-area-inset-top)); transform: translateX(-50%); width: min(90%, 600px); max-height: 50%; overflow: auto; background: white; padding: 10px; display: none; overflow-wrap: anywhere; }
-button { color: white; background: rgb(20 25 35 / 65%); border: 1px solid rgb(255 255 255 / 55%); cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: none; user-select: none; -webkit-user-select: none; }
-button:focus-visible { outline: 3px solid #ffe378; outline-offset: 3px; }
-#unity-fullscreen-button { position: absolute; z-index: 3; top: max(12px, env(safe-area-inset-top)); right: calc(10px + env(safe-area-inset-right)); width: 116px; min-height: 44px; padding: 0 8px; border-radius: 12px; font-size: 14px; }
+#game-stage {
+    position: absolute;
+    top: max(8px, env(safe-area-inset-top));
+    bottom: max(8px, env(safe-area-inset-bottom));
+    left: calc(var(--left-rail) + env(safe-area-inset-left));
+    right: calc(var(--right-rail) + env(safe-area-inset-right));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+#unity-canvas {
+    display: block;
+    flex: none;
+    width: 0;
+    height: 0;
+    background: #231f20;
+    touch-action: none;
+}
+
+#unity-loading-bar {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+}
+
+#unity-logo {
+    width: 154px;
+    height: 130px;
+    background: url('unity-logo-dark.png') no-repeat center;
+}
+
+#unity-progress-bar-empty {
+    width: 141px;
+    height: 18px;
+    margin-top: 10px;
+    margin-left: 6.5px;
+    background: url('progress-bar-empty-dark.png') no-repeat center;
+}
+
+#unity-progress-bar-full {
+    width: 0%;
+    height: 18px;
+    background: url('progress-bar-full-dark.png') no-repeat center;
+}
+
+#unity-warning {
+    position: absolute;
+    z-index: 4;
+    left: 50%;
+    top: max(64px, env(safe-area-inset-top));
+    transform: translateX(-50%);
+    width: min(90%, 600px);
+    max-height: 50%;
+    overflow: auto;
+    background: white;
+    padding: 10px;
+    display: none;
+    overflow-wrap: anywhere;
+}
+
+button {
+    color: white;
+    background: rgb(20 25 35 / 65%);
+    border: 1px solid rgb(255 255 255 / 55%);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+button:focus-visible {
+    outline: 3px solid #ffe378;
+    outline-offset: 3px;
+}
+
+#unity-fullscreen-button {
+    position: absolute;
+    z-index: 3;
+    top: max(12px, env(safe-area-inset-top));
+    right: calc(10px + env(safe-area-inset-right));
+    width: 116px;
+    min-height: 44px;
+    padding: 0 8px;
+    border-radius: 12px;
+    font-size: 14px;
+}
+
 /* 左下方三顆方向箭頭採單列排列，不顯示鍵名字樣。 */
-#touch-controls { --key-size: 48px; position: absolute; z-index: 2; bottom: max(24px, env(safe-area-inset-bottom)); left: calc(10px + env(safe-area-inset-left)); display: grid; grid-template-columns: repeat(3, var(--key-size)); grid-template-rows: var(--key-size); gap: 6px; touch-action: none; }
-#touch-controls button { border-radius: 18px; font-size: 24px; box-shadow: 0 3px 10px rgb(0 0 0 / 25%); }
-#touch-controls button:disabled { opacity: .35; cursor: wait; }
-#touch-controls button.is-pressed { background: rgb(255 213 79 / 85%); color: #231f20; transform: scale(.94); }
-#fullscreen-status { position: absolute; z-index: 3; top: calc(max(12px, env(safe-area-inset-top)) + 52px); right: max(12px, env(safe-area-inset-right)); max-width: min(85%, 340px); color: white; background: rgb(20 25 35 / 85%); border-radius: 8px; padding: 10px; pointer-events: none; }
-#fullscreen-status:empty { display: none; }
-@media (max-height: 450px) { #touch-controls { --key-size: 48px; gap: 6px; bottom: max(10px, env(safe-area-inset-bottom)); } }
+/* 左下方方向鍵：上方 W，下面 A / S / D */
+#touch-controls {
+    --key-size: 48px;
+
+    position: absolute;
+    z-index: 2;
+
+    bottom: max(24px, env(safe-area-inset-bottom));
+    left: calc(10px + env(safe-area-inset-left));
+
+    display: grid;
+
+    /* 三欄 */
+    grid-template-columns: repeat(3, var(--key-size));
+
+    /* 兩列 */
+    grid-template-rows: repeat(2, var(--key-size));
+
+    gap: 6px;
+
+    touch-action: none;
+}
+
+/* 所有方向按鈕 */
+#touch-controls button {
+    width: var(--key-size);
+    height: var(--key-size);
+
+    border-radius: 18px;
+    font-size: 24px;
+
+    box-shadow: 0 3px 10px rgb(0 0 0 / 25%);
+}
+
+/* ▲ W：上方正中央 */
+#touch-controls button[data-direction="up"] {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+/* ◀ A：左下 */
+#touch-controls button[data-direction="left"] {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+/* ▼ S：中下 */
+#touch-controls button[data-direction="down"] {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+/* ▶ D：右下 */
+#touch-controls button[data-direction="right"] {
+    grid-column: 3;
+    grid-row: 2;
+}
+
+#touch-controls button:disabled {
+    opacity: .35;
+    cursor: wait;
+}
+
+#touch-controls button.is-pressed {
+    background: rgb(255 213 79 / 85%);
+    color: #231f20;
+    transform: scale(.94);
+}
+
+/* 橫向手機高度比較小時 */
+@media (max-height: 450px) {
+    #touch-controls {
+        --key-size: 48px;
+        gap: 6px;
+
+        bottom: max(10px, env(safe-area-inset-bottom));
+    }
+}
+
+#fullscreen-status {
+    position: absolute;
+    z-index: 3;
+    top: calc(max(12px, env(safe-area-inset-top)) + 52px);
+    right: max(12px, env(safe-area-inset-right));
+    max-width: min(85%, 340px);
+    color: white;
+    background: rgb(20 25 35 / 85%);
+    border-radius: 8px;
+    padding: 10px;
+    pointer-events: none;
+}
+
+#fullscreen-status:empty {
+    display: none;
+}
+
+@media (max-height: 450px) {
+    #touch-controls {
+        --key-size: 48px;
+        gap: 6px;
+        bottom: max(10px, env(safe-area-inset-bottom));
+    }
+}
 
 /* 右下方動作區：由左至右為綠、紅圓鈕；寬高相同，保持正圓。 */
-#action-controls { --action-size: 54px; position: absolute; z-index: 2; right: calc(10px + env(safe-area-inset-right)); bottom: max(24px, env(safe-area-inset-bottom)); display: flex; align-items: center; gap: 8px; touch-action: none; }
-#action-controls button { width: var(--action-size); height: var(--action-size); flex: 0 0 var(--action-size); padding: 0; border: none; border-radius: 50%; }
-#space-button { background: #24c566; }
-#enter-button { background: #ed363e; }
-#action-controls button:disabled { opacity: .4; cursor: wait; }
-#action-controls button.is-pressed { transform: scale(.92); filter: brightness(1.18); }
+#action-controls {
+    --action-size: 54px;
+    position: absolute;
+    z-index: 2;
+    right: calc(10px + env(safe-area-inset-right));
+    bottom: max(24px, env(safe-area-inset-bottom));
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    touch-action: none;
+}
+
+#action-controls button {
+    width: var(--action-size);
+    height: var(--action-size);
+    flex: 0 0 var(--action-size);
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+}
+
+#space-button {
+    background: #24c566;
+}
+
+#enter-button {
+    background: #ed363e;
+}
+
+#action-controls button:disabled {
+    opacity: .4;
+    cursor: wait;
+}
+
+#action-controls button.is-pressed {
+    transform: scale(.92);
+    filter: brightness(1.18);
+}
+
 /* 無可見文字，按鈕功能保留在 HTML 的 aria-label，供螢幕閱讀器辨識。 */
 /* 直向遮罩必須位於所有按鈕與畫布上方，禁止點擊底下的遊戲。 */
-#orientation-lock { position: absolute; inset: 0; z-index: 10; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 28px; text-align: center; color: white; background: #191820; touch-action: none; }
-#orientation-lock[hidden] { display: none; }
-#orientation-lock h1 { font-size: clamp(21px, 5vw, 30px); margin: 20px 0 8px; }
-#orientation-lock p { font-size: 15px; line-height: 1.7; }
-#orientation-lock small { color: #c5becb; }
-.rotate-device { display: grid; place-items: center; width: 62px; height: 94px; border: 3px solid #ff686d; border-radius: 14px; font-size: 44px; color: #ff686d; transform: rotate(90deg); }
-.portrait-blocked > :not(#orientation-lock) { visibility: hidden; pointer-events: none; }
-@media (max-height: 450px) { #action-controls { bottom: max(10px, env(safe-area-inset-bottom)); } }
+#orientation-lock {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 28px;
+    text-align: center;
+    color: white;
+    background: #191820;
+    touch-action: none;
+}
+
+#orientation-lock[hidden] {
+    display: none;
+}
+
+#orientation-lock h1 {
+    font-size: clamp(21px, 5vw, 30px);
+    margin: 20px 0 8px;
+}
+
+#orientation-lock p {
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+#orientation-lock small {
+    color: #c5becb;
+}
+
+.rotate-device {
+    display: grid;
+    place-items: center;
+    width: 62px;
+    height: 94px;
+    border: 3px solid #ff686d;
+    border-radius: 14px;
+    font-size: 44px;
+    color: #ff686d;
+    transform: rotate(90deg);
+}
+
+.portrait-blocked> :not(#orientation-lock) {
+    visibility: hidden;
+    pointer-events: none;
+}
+
+@media (max-height: 450px) {
+    #action-controls {
+        bottom: max(10px, env(safe-area-inset-bottom));
+    }
+}
