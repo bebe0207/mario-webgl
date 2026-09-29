@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Unity WebGL Player | Mario</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
-    <link rel="stylesheet" href="TemplateData/style.css?v=20260929-controls">
+    <link rel="stylesheet" href="TemplateData/style.css?v=20260929-round-buttons">
   </head>
   <body>
     <div id="unity-container" class="unity-desktop">
@@ -19,15 +19,16 @@
       </div>
       <div id="unity-warning"> </div>
       <button id="unity-fullscreen-button" type="button" aria-label="進入全螢幕">全螢幕</button>
-      <!-- 左下方方向區：上＝空白鍵、下＝S、左＝A、右＝D。 -->
-      <div id="touch-controls" role="group" aria-label="遊戲方向控制">
-        <button type="button" data-direction="up" data-key=" " data-code="Space" data-keycode="32" aria-label="上：空白鍵" disabled>▲<small>空白鍵</small></button>
-        <button type="button" data-direction="left" data-key="a" data-code="KeyA" data-keycode="65" aria-label="左：A 鍵" disabled>◀<small>A</small></button>
-        <button type="button" data-direction="down" data-key="s" data-code="KeyS" data-keycode="83" aria-label="下：S 鍵" disabled>▼<small>S</small></button>
-        <button type="button" data-direction="right" data-key="d" data-code="KeyD" data-keycode="68" aria-label="右：D 鍵" disabled>▶<small>D</small></button>
+      <!-- 左側僅保留左右移動，箭頭分別對應 A、D。 -->
+      <div id="touch-controls" role="group" aria-label="左右移動">
+        <button type="button" data-direction="left" data-key="a" data-code="KeyA" data-keycode="65" aria-label="向左移動" disabled>◀</button>
+        <button type="button" data-direction="right" data-key="d" data-code="KeyD" data-keycode="68" aria-label="向右移動" disabled>▶</button>
       </div>
-      <!-- 右側紅色確認按鈕，與鍵盤 Enter 使用相同的按下／放開事件。 -->
-      <button id="enter-button" type="button" data-key="Enter" data-code="Enter" data-keycode="13" aria-label="Enter 確認鍵" disabled>ENTER<span>確認</span></button>
+      <!-- 右側兩顆無文字圓形按鈕：左綠＝空白鍵，右紅＝Enter 與 S 同時按下。 -->
+      <div id="action-controls" role="group" aria-label="遊戲動作">
+        <button id="space-button" type="button" data-key=" " data-code="Space" data-keycode="32" aria-label="空白鍵" disabled></button>
+        <button id="enter-button" type="button" data-key="Enter" data-code="Enter" data-keycode="13" data-extra-key="s" data-extra-code="KeyS" data-extra-keycode="83" aria-label="同時按下 Enter 和 S" disabled></button>
+      </div>
       <!-- 手機、平板直向時覆蓋整個遊戲；提示放在容器內，全螢幕時也能顯示。 -->
       <div id="orientation-lock" role="alert" hidden>
         <div class="rotate-device" aria-hidden="true">↻</div>
@@ -37,7 +38,7 @@
       </div>
       <div id="fullscreen-status" role="status" aria-live="polite"></div>
     </div>
-    <script src="TemplateData/controls.js?v=20260929-controls"></script>
+    <script src="TemplateData/controls.js?v=20260929-round-buttons"></script>
     <script>
 
       var container = document.querySelector("#unity-container");
