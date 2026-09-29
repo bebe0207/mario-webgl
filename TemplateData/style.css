@@ -13,8 +13,8 @@ body { font-family: Arial, sans-serif; }
 button { color: white; background: rgb(20 25 35 / 65%); border: 1px solid rgb(255 255 255 / 55%); cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: none; user-select: none; -webkit-user-select: none; }
 button:focus-visible { outline: 3px solid #ffe378; outline-offset: 3px; }
 #unity-fullscreen-button { position: absolute; z-index: 3; top: max(12px, env(safe-area-inset-top)); right: max(12px, env(safe-area-inset-right)); min-height: 44px; padding: 0 16px; border-radius: 12px; font-size: 14px; }
-/* 左下方兩顆方向箭頭採單列排列，不顯示鍵名字樣。 */
-#touch-controls { --key-size: clamp(48px, 10vw, 68px); position: absolute; z-index: 2; bottom: max(24px, env(safe-area-inset-bottom)); left: max(18px, env(safe-area-inset-left)); display: grid; grid-template-columns: repeat(2, var(--key-size)); grid-template-rows: var(--key-size); gap: 10px; touch-action: none; }
+/* 左下方三顆方向箭頭採單列排列，不顯示鍵名字樣。 */
+#touch-controls { --key-size: clamp(48px, 10vw, 68px); position: absolute; z-index: 2; bottom: max(24px, env(safe-area-inset-bottom)); left: max(18px, env(safe-area-inset-left)); display: grid; grid-template-columns: repeat(3, var(--key-size)); grid-template-rows: var(--key-size); gap: 10px; touch-action: none; }
 #touch-controls button { border-radius: 18px; font-size: 24px; box-shadow: 0 3px 10px rgb(0 0 0 / 25%); }
 #touch-controls button:disabled { opacity: .35; cursor: wait; }
 #touch-controls button.is-pressed { background: rgb(255 213 79 / 85%); color: #231f20; transform: scale(.94); }

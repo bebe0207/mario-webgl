@@ -30,11 +30,6 @@
   }
   function sendKey(button, type) {
     dispatchKey(type, button.dataset.key, button.dataset.code, Number(button.dataset.keycode));
-    // 紅色按鈕在同一個事件處理流程送出 Enter 與 S；放開時兩鍵也一起釋放。
-    // 取消觸控、轉向或離開分頁時，仍會透過同一函式釋放兩個按鍵。
-    if (button.dataset.extraKeycode) {
-      dispatchKey(type, button.dataset.extraKey, button.dataset.extraCode, Number(button.dataset.extraKeycode));
-    }
   }
 
   // 放開最後一根按住該按鈕的手指時，才送出 keyup，避免多點觸控互相中斷。
